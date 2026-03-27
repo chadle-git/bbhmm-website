@@ -1,0 +1,117 @@
+---
+---
+
+<section class="stats-section section" id="pool-stats">
+  <div class="container">
+    <h2 class="section-title">Live Pool Statistics</h2>
+    <p class="section-subtitle">Real-time data from the Cardano blockchain via Koios API</p>
+
+    <div id="stats-container" class="stats-loading">
+      <p>Loading pool statistics...</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const POOL_BECH32 = 'pool1qal80uhlj949mgv0ecvdkmgqjdn5q27wmpaj4crnr5e9v6qmsv7';
+  const API_URL = 'https://api.koios.rest/api/v1/pool_info';
+
+  function formatAda(lovelace: string | number): string {
+    const ada = Number(lovelace) / 1_000_000;
+    if (ada >= 1_000_000) return (ada / 1_000_000).toFixed(2) + 'M';
+    if (ada >= 1_000) return (ada / 1_000).toFixed(1) + 'K';
+    return ada.toFixed(0);
+  }
+
+  function animateValue(el: HTMLElement, target: string) {
+    const numMatch = target.match(/^([\d.]+)/);
+    if (!numMatch) {
+      el.textContent = target;
+      return;
+    }
+    const suffix = target.replace(numMatch[0], '');
+    const end = parseFloat(numMatch[0]);
+    const duration = 1200;
+    const start = performance.now();
+
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * end;
+
+      if (suffix.includes('M') || suffix.includes('K') || target.includes('.')) {
+        el.textContent = current.toFixed(end < 10 ? 2 : end < 100 ? 1 : 0) + suffix;
+      } else {
+        el.textContent = Math.floor(current).toString() + suffix;
+      }
+
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  async function fetchPoolStats() {
+    const container = document.getElementById('stats-container');
+    if (!container) return;
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _pool_bech32_ids: [POOL_BECH32] }),
+      });
+
+      if (!response.ok) throw new Error('API request failed');
+
+      const data = await response.json();
+      if (!data || data.length === 0) throw new Error('No pool data returned');
+
+      const pool = data[0];
+      const stats = [
+        { label: 'Live Stake', value: formatAda(pool.live_stake || 0) + ' ADA' },
+        { label: 'Pledge', value: formatAda(pool.live_pledge || pool.pledge || 0) + ' ADA' },
+        { label: 'Blocks Minted', value: String(pool.block_count || 0) },
+        { label: 'Margin', value: ((pool.margin || 0.01) * 100).toFixed(0) + '%' },
+        { label: 'Delegators', value: String(pool.live_delegators || 0) },
+        { label: 'Saturation', value: ((pool.live_saturation || 0) * 100).toFixed(2) + '%' },
+      ];
+
+      container.innerHTML = '';
+      container.className = 'stats-grid';
+
+      stats.forEach((stat) => {
+        const card = document.createElement('div');
+        card.className = 'stat-card animate-in';
+        const valueEl = document.createElement('div');
+        valueEl.className = 'stat-value';
+        valueEl.textContent = '0';
+        const labelEl = document.createElement('div');
+        labelEl.className = 'stat-label';
+        labelEl.textContent = stat.label;
+        card.appendChild(valueEl);
+        card.appendChild(labelEl);
+        container.appendChild(card);
+
+        setTimeout(() => animateValue(valueEl, stat.value), 200);
+      });
+    } catch (err) {
+      console.error('Failed to fetch pool stats:', err);
+      if (container) {
+        container.innerHTML = `
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value">1%</div><div class="stat-label">Variable Fee</div></div>
+            <div class="stat-card"><div class="stat-value">Feb 2020</div><div class="stat-label">Pool Launch</div></div>
+            <div class="stat-card"><div class="stat-value">BBHMM</div><div class="stat-label">Ticker</div></div>
+            <div class="stat-card"><div class="stat-value">24/7</div><div class="stat-label">Uptime</div></div>
+          </div>`;
+        container.className = '';
+      }
+    }
+  }
+
+  fetchPoolStats();
+  setInterval(fetchPoolStats, 5 * 60 * 1000);
+</script>

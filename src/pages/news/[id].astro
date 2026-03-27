@@ -1,0 +1,87 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news');
+  return news.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout
+  title={`${post.data.title} | BBHMM News`}
+  description={post.data.description}
+>
+  <div class="page-header">
+    <div class="container">
+      <p style="margin-bottom: 0.5rem;">
+        <a href="/news/" style="color: var(--color-primary-light);">&larr; Back to News</a>
+      </p>
+      <h1>{post.data.title}</h1>
+      <p>
+        {new Date(post.data.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
+        {post.data.author && <span> &middot; {post.data.author}</span>}
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <article class="news-article">
+        <Content />
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .news-article {
+    max-width: 750px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .news-article :global(h2) {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-text-heading);
+  }
+
+  .news-article :global(h3) {
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary-light);
+  }
+
+  .news-article :global(p) {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .news-article :global(ul),
+  .news-article :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .news-article :global(li) {
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .news-article :global(strong) {
+    color: var(--color-text-heading);
+  }
+</style>

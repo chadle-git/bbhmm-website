@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PoolStats from '../components/PoolStats.astro';
+---
+
+<Layout title="BBHMM | Cardano Stake Pool - Blockchain Better Have My Money">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-ticker">BBHMM STAKE POOL</div>
+      <h1>Blockchain Better Have My Money</h1>
+      <p>
+        Enterprise-grade Cardano stake pool running on dedicated datacenter infrastructure since February 2020. Reliable, secure, and built for long-term performance.
+      </p>
+      <div class="hero-buttons">
+        <a href="/stake/" class="btn btn-primary">Stake with BBHMM</a>
+        <a href="/about/" class="btn btn-outline">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Why Delegate to BBHMM?</h2>
+      <p class="section-subtitle">Built for reliability, backed by experience</p>
+
+      <div class="features-grid">
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#9889;</div>
+          <h3>High Performance</h3>
+          <p>
+            Hosted on enterprise-grade hardware in a professional datacenter with redundant power and network connectivity for maximum uptime.
+          </p>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#128187;</div>
+          <h3>Seasoned Team</h3>
+          <p>
+            Operated by experienced systems administrators and blockchain enthusiasts with deep knowledge of Cardano infrastructure since the early days.
+          </p>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#128274;</div>
+          <h3>Security First</h3>
+          <p>
+            Cold keys stored offline with air-gapped signing. Hardened servers with continuous monitoring, automated alerts, and regular security audits.
+          </p>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#128176;</div>
+          <h3>Earn Rewards</h3>
+          <p>
+            Competitive 1% variable fee means more rewards in your pocket. Delegate your ADA and earn passive income every epoch while supporting decentralization.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pool Stats -->
+  <PoolStats />
+
+  <!-- Partners -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Our Partners</h2>
+      <p class="section-subtitle">Collaborating with leading projects in the Cardano ecosystem</p>
+
+      <div class="partners-grid">
+        <div class="partner-card animate-in">
+          <h3>TosiDrop</h3>
+          <p>
+            Token distribution platform enabling BBHMM delegators to receive additional token rewards on top of ADA staking rewards.
+          </p>
+        </div>
+
+        <div class="partner-card animate-in">
+          <h3>World Mobile</h3>
+          <p>
+            A global mobile network built on blockchain, connecting the unconnected. BBHMM supports the World Mobile mission through the Cardano ecosystem.
+          </p>
+        </div>
+
+        <div class="partner-card animate-in">
+          <h3>NuNet</h3>
+          <p>
+            Decentralized computing framework. BBHMM collaborates with NuNet to advance distributed computing infrastructure on Cardano.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

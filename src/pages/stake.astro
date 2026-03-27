@@ -1,0 +1,154 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Stake with BBHMM | Delegate Your ADA"
+  description="Learn how to delegate your ADA to the BBHMM Cardano stake pool. Step-by-step instructions and wallet guides."
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Stake with BBHMM</h1>
+      <p>Delegate your ADA and start earning rewards every epoch</p>
+    </div>
+  </div>
+
+  <!-- Pool ID Section -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Pool ID</h2>
+      <p class="section-subtitle">Copy our pool ID to search in your wallet</p>
+
+      <div class="pool-id-box">
+        <code class="pool-id-text" id="pool-id">077e77f2ff916a5da18fce18db6d009367402bced87b2ae0731d3256</code>
+        <button class="copy-btn" id="copy-btn" onclick="copyPoolId()">Copy</button>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <div class="pool-id-box">
+          <code class="pool-id-text" id="pool-bech32">pool1qal80uhlj949mgv0ecvdkmgqjdn5q27wmpaj4crnr5e9v6qmsv7</code>
+          <button class="copy-btn" onclick="copyBech32()">Copy Bech32</button>
+        </div>
+      </div>
+
+      <p style="text-align: center; margin-top: 1rem; color: var(--color-text-muted); font-size: 0.9rem;">
+        Ticker: <strong>BBHMM</strong> &middot; Variable Fee: <strong>1%</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- How to Delegate -->
+  <section class="section" style="background: var(--color-bg-alt);">
+    <div class="container">
+      <h2 class="section-title">How to Delegate</h2>
+      <p class="section-subtitle">Follow these simple steps to start staking</p>
+
+      <ol class="steps-list" style="max-width: 700px; margin: 0 auto;">
+        <li>
+          <strong>Get a Cardano wallet.</strong> Download one of the supported wallets listed below. We recommend Eternl or Yoroi for most users.
+        </li>
+        <li>
+          <strong>Transfer ADA to your wallet.</strong> Purchase ADA from an exchange and send it to your wallet address.
+        </li>
+        <li>
+          <strong>Navigate to the staking/delegation section</strong> in your wallet. This is usually found in the main menu or sidebar.
+        </li>
+        <li>
+          <strong>Search for BBHMM</strong> by ticker or paste our Pool ID from above. Select the BBHMM pool from the results.
+        </li>
+        <li>
+          <strong>Confirm delegation.</strong> Review the details and confirm. Your ADA stays in your wallet -- you never lose custody.
+        </li>
+        <li>
+          <strong>Earn rewards!</strong> Rewards begin accumulating after 2 full epochs (~10 days) and are distributed automatically every epoch thereafter.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Wallets -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Recommended Wallets</h2>
+      <p class="section-subtitle">Popular wallets that support Cardano staking</p>
+
+      <div class="wallet-grid">
+        <a href="https://yoroi-wallet.com/" target="_blank" rel="noopener noreferrer" class="wallet-card animate-in">
+          <h3>Yoroi</h3>
+          <p>Light wallet by EMURGO. Available as a browser extension and mobile app. Great for beginners.</p>
+        </a>
+
+        <a href="https://daedaluswallet.io/" target="_blank" rel="noopener noreferrer" class="wallet-card animate-in">
+          <h3>Daedalus</h3>
+          <p>Full-node desktop wallet by IOG. Downloads the full blockchain for maximum security and verification.</p>
+        </a>
+
+        <a href="https://eternl.io/" target="_blank" rel="noopener noreferrer" class="wallet-card animate-in">
+          <h3>Eternl</h3>
+          <p>Feature-rich light wallet with advanced staking features, multi-account support, and dApp connector.</p>
+        </a>
+
+        <a href="https://typhonwallet.io/" target="_blank" rel="noopener noreferrer" class="wallet-card animate-in">
+          <h3>Typhon</h3>
+          <p>Modern browser extension wallet with a clean interface, NFT support, and built-in dApp browser.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="section" style="background: var(--color-bg-alt);">
+    <div class="container">
+      <h2 class="section-title">Benefits of Staking with BBHMM</h2>
+      <p class="section-subtitle">Why delegators choose us</p>
+
+      <div class="features-grid">
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#127968;</div>
+          <h3>Datacenter Infrastructure</h3>
+          <p>Our nodes run in a professional datacenter with enterprise-grade hardware, redundant power, and high-bandwidth connectivity.</p>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#128200;</div>
+          <h3>Consistent Returns</h3>
+          <p>With a 1% variable fee, delegators keep more of their rewards. Our track record shows consistent block production since 2020.</p>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#128272;</div>
+          <h3>Non-Custodial</h3>
+          <p>Your ADA never leaves your wallet. Staking on Cardano is completely non-custodial -- you maintain full control at all times.</p>
+        </div>
+
+        <div class="feature-card animate-in">
+          <div class="feature-icon">&#127760;</div>
+          <h3>Supporting Decentralization</h3>
+          <p>By delegating to a single-pool operation like BBHMM, you help keep the Cardano network decentralized and resilient.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  function copyPoolId() {
+    const text = document.getElementById('pool-id')?.textContent || '';
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-btn');
+      if (btn) {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+      }
+    });
+  }
+
+  function copyBech32() {
+    const text = document.getElementById('pool-bech32')?.textContent || '';
+    navigator.clipboard.writeText(text);
+  }
+
+  // Make functions available globally
+  (window as any).copyPoolId = copyPoolId;
+  (window as any).copyBech32 = copyBech32;
+</script>
